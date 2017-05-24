@@ -50,8 +50,8 @@ function networkUp () {
     # channel configuration transaction
     source generateArtifacts.sh $CH_NAME
 
-    TIMEOUT  = $CLI_TIMEOUT
-    
+    #TIMEOUT = $CLI_TIMEOUT
+
     if [ "${IF_COUCHDB}" == "couchdb" ]; then
       CHANNEL_NAME=$CH_NAME TIMEOUT=$CLI_TIMEOUT docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
     else
