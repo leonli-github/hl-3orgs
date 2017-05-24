@@ -1,0 +1,8 @@
+Changed files:
+-linux-amd64
+ -base
+  docker-compose-base.yaml
+ configtx.yaml
+ crypto-config.yaml
+ docker-compse-cli.yaml
+ generateArtifacts.sh
