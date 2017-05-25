@@ -46,7 +46,7 @@ setGlobals () {
 		else
 			CORE_PEER_ADDRESS=peer1.org2.example.com:7051
 		fi
-	elif [ $1 -eq 4 -o $1 -eq 5 ]; then
+	elif [ $1 -eq 2 -o $1 -eq 3 ]; then	
 		CORE_PEER_LOCALMSPID="Org3MSP"
 		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
 		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
@@ -90,14 +90,12 @@ updateAnchorPeers() {
 		#peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
 		setGlobals 0
 		peer channel create -o orderer.example.com:7050 -c mychannel1 -f ./channel-artifacts/Org1MSPanchors1.tx >&log.txt
-    		setGlobals 2
-    		peer channel create -o orderer.example.com:7050 -c mychannel1 -f ./channel-artifacts/Org2MSPanchors1.tx >&log.txt
+    	setGlobals 2
+    	peer channel create -o orderer.example.com:7050 -c mychannel1 -f ./channel-artifacts/Org2MSPanchors1.tx >&log.txt
 		setGlobals 0
 		peer channel create -o orderer.example.com:7050 -c mychannel2 -f ./channel-artifacts/Org1MSPanchors2.tx >&log.txt
 		setGlobals 4
 		peer channel create -o orderer.example.com:7050 -c mychannel2 -f ./channel-artifacts/Org3MSPanchors2.tx >&log.txt
-		echo "===================== Anchor peers for org1&2&3 on mychannel1&2 are updated successfully ===================== "
-		echo
 	else
 		setGlobals 0
 		peer channel create -o orderer.example.com:7050 -c mychannel1 -f ./channel-artifacts/Org1MSPanchors1.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
@@ -107,13 +105,13 @@ updateAnchorPeers() {
 		peer channel create -o orderer.example.com:7050 -c mychannel2 -f ./channel-artifacts/Org1MSPanchors2.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 		setGlobals 4
 		peer channel create -o orderer.example.com:7050 -c mychannel2 -f ./channel-artifacts/Org3MSPanchors2.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
-		echo "===================== Anchor peers for org1&2&3 on mychannel1&2 are updated successfully ===================== "
-		echo
+
 	fi
 	res=$?
 	cat log.txt
 	verifyResult $res "Anchor peer update failed"
-	#echo "===================== Anchor peers for org \"$CORE_PEER_LOCALMSPID\" on \"$CHANNEL_NAME\" is updated successfully ===================== "
+	echo "===================== Anchor peers for org \"$CORE_PEER_LOCALMSPID\" on \"$CHANNEL_NAME\" is updated successfully ===================== "
+	echo
 }
 
 ## Sometimes Join takes time hence RETRY atleast for 5 times
@@ -121,9 +119,9 @@ joinWithRetry () {
 	#peer channel join -b $CHANNEL_NAME.block  >&log.txt
 	if [ $1 -eq 0 -o $1 -eq 1 ]; then
    	   peer channel join -b mychannel1.block  >&log.txt
-	   peer channel join -b mychannel2.block  >&log.txt
+   	   peer channel join -b mychannel2.block  >&log.txt
 	elif [ $1 -eq 2 -o $1 -eq 3 ]; then
-	   peer channel join -b mychannel1.block  >&log.txt	
+       peer channel join -b mychannel1.block  >&log.txt
 	elif [ $1 -eq 4 -o $1 -eq 5 ]; then
    	   peer channel join -b mychannel2.block  >&log.txt
 	fi 
@@ -170,7 +168,7 @@ echo "Having all peers join the channel..."
 joinChannel
 
 ## Set the anchor peers for each org in the channel
-echo "Updating anchor peers for org1&2&3..."
+echo "Updating anchor peers for org1 2&3..."
 updateAnchorPeers
 #echo "Updating anchor peers for org2..."
 #updateAnchorPeers 2
@@ -178,9 +176,9 @@ updateAnchorPeers
 ## Install chaincode on Peer0/Org1 and Peer2/Org2
 echo "Installing chaincode on org1/peer0..."
 installChaincode 0
-echo "Installing chaincode on org2/peer2..."
+echo "Install chaincode on org2/peer2..."
 installChaincode 2
-echo "Installing chaincode on org3/peer4..."
+echo "Install chaincode on org3/peer4..."
 installChaincode 4
 
 

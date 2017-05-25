@@ -49,6 +49,9 @@ function generateCerts (){
 	echo "##########################################################"
 	echo "##### Generate certificates using cryptogen tool #########"
 	echo "##########################################################"
+ 	echo $FABRIC_ROOT
+ 	echo $FABRIC_CFG_PATH
+	echo $CRYPTOGEN
 	$CRYPTOGEN generate --config=./crypto-config.yaml
 	echo
 }
