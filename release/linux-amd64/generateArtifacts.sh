@@ -32,6 +32,10 @@ function replacePrivateKey () {
         PRIV_KEY=$(ls *_sk)
         cd $CURRENT_DIR
         sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+        cd crypto-config/peerOrganizations/org3.example.com/ca/
+        PRIV_KEY=$(ls *_sk)
+        cd $CURRENT_DIR
+        sed $OPTS "s/CA3_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
 }
 
 ## Generates Org certs using cryptogen tool
@@ -49,9 +53,6 @@ function generateCerts (){
 	echo "##########################################################"
 	echo "##### Generate certificates using cryptogen tool #########"
 	echo "##########################################################"
- 	echo $FABRIC_ROOT
- 	echo $FABRIC_CFG_PATH
-	echo $CRYPTOGEN
 	$CRYPTOGEN generate --config=./crypto-config.yaml
 	echo
 }
