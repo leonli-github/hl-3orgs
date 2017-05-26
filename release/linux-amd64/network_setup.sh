@@ -7,9 +7,9 @@ IF_COUCHDB="$4"
 
 : ${CLI_TIMEOUT:="10000"}
 
-COMPOSE_FILE=docker-compose-cli.yaml
-COMPOSE_FILE_COUCH=docker-compose-couch.yaml
-#COMPOSE_FILE=docker-compose-e2e.yaml
+#COMPOSE_FILE=docker-compose-cli.yaml
+#COMPOSE_FILE_COUCH=docker-compose-couch.yaml
+COMPOSE_FILE=docker-compose-e2e.yaml
 
 function printHelp () {
 	echo "Usage: ./network_setup <up|down> <\$channel-name> <\$cli_timeout> <couchdb>.\nThe arguments must be in order."
